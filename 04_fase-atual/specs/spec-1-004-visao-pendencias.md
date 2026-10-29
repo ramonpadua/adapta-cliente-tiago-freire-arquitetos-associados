@@ -1,17 +1,24 @@
 # SPEC-1-004 — Visão de gestão à vista e fila de pendências
 
 **Fase:** 1
-**Status:** bloqueada
+**Status:** preparação autorizada; implementação e aceite sujeitos às dependências e ao teste humano
 **Dono:** coordenador de projetos
 **Origem no escopo:** RQ-004, RQ-008, RQ-002, RQ-006; DEC-002, DEC-006, DEC-007; Fase 1 do `02-Escopo-Definitivo.md`
 **Degrau da solução:** construção mínima — entrega uma visão filtrável sobre os registros complementares do piloto e uma fila de pendências, sem substituir a visão do DoIt.
 
-## Contexto e decisões fechadas
+## Atualização vigente — 2ª consultoria de 29/10/2026
 
-- **Estado atual:** não existe mapa de processo completo nem visão reproduzível de projeto/etapa/responsável/estado nas fontes; a utilização do DoIt foi observada, mas não há contrato de exportação, API ou permissão de leitura confirmado.
-- **Estado desejado:** Tiago/coordenador visualizam, por projeto, etapa, responsável e estado, registros válidos, desatualizados, incompletos, ambíguos e pendentes; cada pendência tem dono e próximo passo; sem dado, zero e não aplicável permanecem distintos.
-- **Decisões já fechadas:** a visão é operacional, não financeira; origem e estado de integração ficam visíveis; falha não é escondida; nenhuma notificação ou correção automática é ativada.
-- **Bloqueios:** **BLOQUEIO P1-007:** superfície técnica da visão, contrato de atualização e cadência de “desatualizado” dependem de P1-001/P1-005; não há valor de prazo nem ferramenta aprovados nas fontes.
+Este bloco prevalece sobre o texto anterior. Nenhuma tarefa foi concluída por ele.
+
+- **Projeto-piloto:** 224 — Rooftop PRIO.
+- **Equipe do piloto:** Bianca Martinelli (bianca@tiagofreire.arq.br), Akira Narimatsu (akira@tiagofreire.arq.br), Thales de Morais (thales@tiagofreire.arq.br) e Felipe Pinto (felipe@tiagofreire.arq.br). Confirmar o endereço da Akira antes de qualquer convite; não criar contas automaticamente.
+- **Frequência de registro:** uma vez por dia (definido na consultoria de 29/10).
+- **O que se espera do piloto:** que a equipe consiga registrar diariamente e que o gestor passe a ver andamento por projeto, etapa e responsável, com horas por pessoa e por projeto como evolução.
+- **Aplicação:** usar este projeto Skip existente. Não criar outro projeto nem descartar a tela atual — chat e painel começam do que já foi criado.
+- **Como trabalhar:** uma tarefa por vez. O agente pergunta ao Tiago o que faltar, registra a resposta e só segue para a próxima tarefa depois de confirmação ("testei, pode seguir").
+- **DoIt:** a consulta está documentada, mas o acesso ainda não foi provado. Nesta fase não há escrita no DoIt e nenhum dado financeiro é usado.
+- **Perguntas em aberto, a fazer durante as tarefas:** etapas reais do Rooftop PRIO; responsável pelas pendências; dias e horário-limite do registro; critério verificável de sucesso. Não criar número nem prazo por conta própria.
+
 
 ## Resultado observável
 
@@ -25,7 +32,7 @@ Uma visão do piloto com filtros por projeto, etapa, responsável e estado, cont
 - **Saídas/artefatos:** visão demonstrável; fila de pendências; evidência de filtros e papéis; comparação baseline/observado quando o baseline estiver aprovado; veredito humano.
 - **Dependências e responsáveis:** coordenador define filtros, dono e próximo passo; Tiago valida visão e alvo; administrador técnico confirma consulta; responsável pelo DoIt fornece referência se autorizada.
 - **Atores e permissões mínimas:** champion e coordenador consultam o piloto; participantes veem somente o permitido pela matriz; financeiro permanece restrito; visão não concede permissão de edição.
-- **Superfícies/arquivos/configurações afetadas:** visão e consulta na plataforma aprovada; nenhum dashboard, banco ou conector específico é escolhido nesta SPEC.
+- **Superfícies/arquivos/configurações afetadas:** aplicação Skip existente do cliente. Reutilizar chat e painel, respeitando o submódulo e sem criar projeto paralelo. Conector sem acesso vira pendência técnica, nunca motivo para inventar dados.
 - **Risco e plano B:** se a fonte não puder ser consultada, demonstrar visão somente com fixture marcado como teste e fila manual de pendências; não preencher ausência com zero nem afirmar cobertura produtiva.
 - **Rollback ou reversão:** desativar a visão de teste e preservar export/capturas; não apagar registros de origem nem logs.
 
@@ -71,7 +78,7 @@ Uma visão do piloto com filtros por projeto, etapa, responsável e estado, cont
 2. **Alterar somente:** consulta, visão e fila de pendências da superfície aprovada.
 3. **Não alterar:** fonte original do DoIt, dados financeiros, permissões, registro sem confirmação, integrações externas ou notificações.
 4. **Executar nesta ordem:** fechar P1-007 → carregar fixture → aplicar controle de acesso → validar filtros → validar qualidade → abrir/encaminhar pendência → executar regressão.
-5. **Parar e pedir validação quando:** faltar cadência, baseline, alvo, denominador, plataforma, permissão de consulta ou regra de desatualização.
+5. **Parar e pedir validação quando:** faltar uma resposta operacional do Tiago; pergunte somente o que falta, uma de cada vez, registre e confirme antes de usar dado real. Dúvida técnica vira pendência para o consultor. Não é necessária nova liberação do consultor a cada tarefa.
 6. **Estado válido ao parar:** visão de teste identificada; ausência de dado visível; nenhuma pendência encerrada sem dono/próximo passo/veredito.
 
 ## Checklist de execução
@@ -112,15 +119,15 @@ Uma visão do piloto com filtros por projeto, etapa, responsável e estado, cont
 - **Como demonstrar:** abrir a visão com registro e pendência, filtrar por responsável, abrir causa/dono/próximo passo e mostrar origem/auditoria.
 - **Como operar depois:** coordenador revisa a fila na cadência aprovada; Tiago dá o veredito do piloto; participantes não encerram exceções sem regra.
 - **Como monitorar:** quantidade de registros válidos, incompletos, desatualizados, pendências sem dono, erros e duplicidades.
-- **Pendência conhecida:** P1-007 bloqueia a implementação; sem baseline/cadência não há aceite quantitativo.
+- **Pendência conhecida:** parâmetros não respondidos são fechados durante a tarefa correspondente; não há aceite por silêncio. Integração de leitura ainda sem prova; escrita no DoIt fora desta fase.
 
 ## Tasks vinculadas
 
 | ID | Task | Dono | SPEC | Critério | Recorte da prova | Evidência esperada | Pré-condições | Status |
 |---|---|---|---|---|---|---|---|---|
-| F1-T010 | Configurar visão operacional e filtros mínimos | Coordenador de projetos | SPEC-1-004 | CA-1-017, CA-1-018 | carregar fixtures e filtrar por projeto, etapa, responsável e estado | capturas, contagens e estados | P1-007 fechado; superfície aprovada | bloqueada — exceção humana |
-| F1-T011 | Validar fila de pendências, origem, integração e permissões | Coordenador de projetos | SPEC-1-004 | CA-1-019 a CA-1-021 | abrir pendência, mostrar dono/próximo passo e testar papel restrito | fila, detalhes, event_id e auditoria | F1-T010 concluída; matriz disponível | bloqueada — exceção humana |
-| F1-T012 | Exercitar falha de consulta e registrar aceite do champion | Tiago Freire | SPEC-1-004 | CA-1-022, CA-1-023 | interromper consulta e executar roteiro do champion | relatório, pendência e veredito | F1-T010/F1-T011 concluídas; baseline aprovado | bloqueada — exceção humana |
+| F1-T010 | Configurar visão operacional e filtros mínimos | Coordenador de projetos | SPEC-1-004 | CA-1-017, CA-1-018 | carregar fixtures e filtrar por projeto, etapa, responsável e estado | capturas, contagens e estados | P1-007 fechado; superfície aprovada | aguarda dependências e teste humano |
+| F1-T011 | Validar fila de pendências, origem, integração e permissões | Coordenador de projetos | SPEC-1-004 | CA-1-019 a CA-1-021 | abrir pendência, mostrar dono/próximo passo e testar papel restrito | fila, detalhes, event_id e auditoria | F1-T010 concluída; matriz disponível | aguarda dependências e teste humano |
+| F1-T012 | Exercitar falha de consulta e registrar aceite do champion | Tiago Freire | SPEC-1-004 | CA-1-022, CA-1-023 | interromper consulta e executar roteiro do champion | relatório, pendência e veredito | F1-T010/F1-T011 concluídas; baseline aprovado | aguarda dependências e teste humano |
 
 ## Emendas
 

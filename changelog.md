@@ -1,5 +1,9 @@
 # Changelog — Projeto Tiago Freire Arquitetos Associados
 
+## 2026-10-29 — Fase 1 preparada para início
+
+Registrados o projeto-piloto 224 Rooftop PRIO, a equipe de quatro pessoas e a frequência diária de registro, conforme a 2ª Consultoria Native. A aplicação Skip existente é reaproveitada; nenhum projeto novo é criado. T001 liberada para preparação; as demais seguem dependentes da anterior e do teste humano. Nenhuma tarefa foi concluída. Integração com o DoIt segue sem prova de acesso e sem escrita nesta fase.
+
 > Registro operacional do projeto, em ordem cronológica inversa. Dúvidas e divergências entram
 > aqui para resposta da consultoria na próxima sincronização.
 

@@ -1,5 +1,10 @@
 # AGENTS.md
 
+## Atualização de 29/10/2026
+
+Piloto definido: **224 — Rooftop PRIO**, com Bianca Martinelli, Akira Narimatsu, Thales de Morais e Felipe Pinto. Registro **diário**. A aplicação é este projeto Skip existente — evoluir o que já existe, sem criar outro projeto. Trabalhe **uma tarefa por vez**, pergunte ao Tiago apenas o que faltar e só avance após a confirmação dele. A Fase 1 começa pela T001; nenhuma tarefa está concluída. Escrita no DoIt e dados financeiros estão fora desta fase.
+
+
 Instruções para agentes de código neste repositório. **A fonte de verdade é o
 [`CLAUDE.md`](CLAUDE.md)** — leia-o antes de agir. Em resumo:
 

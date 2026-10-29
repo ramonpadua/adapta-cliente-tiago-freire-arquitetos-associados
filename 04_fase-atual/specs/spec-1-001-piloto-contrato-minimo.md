@@ -1,17 +1,24 @@
 # SPEC-1-001 — Piloto e contrato mínimo do registro operacional
 
 **Fase:** 1
-**Status:** bloqueada
+**Status:** preparação autorizada; implementação e aceite sujeitos às dependências e ao teste humano
 **Dono:** Tiago Freire / coordenador de projetos
 **Origem no escopo:** RQ-001, RQ-002, RQ-008; DEC-002, DEC-004, DEC-010; Fase 1 do `02-Escopo-Definitivo.md`
 **Degrau da solução:** construção mínima — cria somente o contrato operacional necessário para demonstrar o primeiro registro e a primeira visão, mantendo o DoIt como referência existente.
 
-## Contexto e decisões fechadas
+## Atualização vigente — 2ª consultoria de 29/10/2026
 
-- **Estado atual:** o DoIt é usado pela equipe, mas os mapas de processo não descrevem um fluxo completo reproduzível; não há projeto-piloto, grupo, baseline, alvo, cadência ou matriz de papéis confirmados nos artefatos disponíveis (`04-Mapeamento-Processos/02-Processos_mapeados/`).
-- **Estado desejado:** existe uma ficha de piloto e um contrato mínimo de dados que permitem registrar e visualizar uma atualização operacional sem alegar sincronização automática com o DoIt.
-- **Decisões já fechadas:** o DoIt não é substituído; chat textual é o primeiro caminho; o registro exige projeto, etapa, responsável, status, momento, observação e confirmação; áudio, timer, finanças, rollout e escrita automática no DoIt estão fora desta fase.
-- **Bloqueios:** **BLOQUEIO P1-001:** faltam valores aprovados para projeto-piloto, grupo-piloto, período, cadência, definição de “atualizado”, baseline, alvo, denominador, fonte de medição e dono das pendências. **BLOQUEIO P1-002:** a plataforma/superfície de implementação e a matriz concreta de papéis ainda não foram identificadas.
+Este bloco prevalece sobre o texto anterior. Nenhuma tarefa foi concluída por ele.
+
+- **Projeto-piloto:** 224 — Rooftop PRIO.
+- **Equipe do piloto:** Bianca Martinelli (bianca@tiagofreire.arq.br), Akira Narimatsu (akira@tiagofreire.arq.br), Thales de Morais (thales@tiagofreire.arq.br) e Felipe Pinto (felipe@tiagofreire.arq.br). Confirmar o endereço da Akira antes de qualquer convite; não criar contas automaticamente.
+- **Frequência de registro:** uma vez por dia (definido na consultoria de 29/10).
+- **O que se espera do piloto:** que a equipe consiga registrar diariamente e que o gestor passe a ver andamento por projeto, etapa e responsável, com horas por pessoa e por projeto como evolução.
+- **Aplicação:** usar este projeto Skip existente. Não criar outro projeto nem descartar a tela atual — chat e painel começam do que já foi criado.
+- **Como trabalhar:** uma tarefa por vez. O agente pergunta ao Tiago o que faltar, registra a resposta e só segue para a próxima tarefa depois de confirmação ("testei, pode seguir").
+- **DoIt:** a consulta está documentada, mas o acesso ainda não foi provado. Nesta fase não há escrita no DoIt e nenhum dado financeiro é usado.
+- **Perguntas em aberto, a fazer durante as tarefas:** etapas reais do Rooftop PRIO; responsável pelas pendências; dias e horário-limite do registro; critério verificável de sucesso. Não criar número nem prazo por conta própria.
+
 
 ## Resultado observável
 
@@ -21,11 +28,11 @@ Uma ficha de piloto aprovada e um contrato de registro preenchido com um fixture
 
 - **Inclui:** ficha de piloto; grupo autorizado; campos mínimos; estados mínimos; definição de registro válido/atualizado; baseline e alvo; dono e cadência de pendências; contrato de origem e estado de integração; fixture controlado.
 - **Fora de escopo:** escrita no DoIt; API, scraping ou banco direto; áudio; timer; horas, custo HH, margem, faturamento ou cobrança; rollout amplo; notificações automáticas; alteração de preço, contrato, proposta ou mensagem a cliente.
-- **Entradas e pré-condições:** check de escopo aprovado; confirmação humana dos bloqueios P1-001 e P1-002; acesso somente de leitura às referências existentes que forem usadas; fixture identificado como teste.
+- **Entradas e pré-condições:** piloto, equipe e frequência já definidos. As lacunas do contrato são coletadas na própria T001, sem impedir o início. Integração real depende de acesso comprovado; fixture é isolado e marcado como teste.
 - **Saídas/artefatos:** ficha de piloto aprovada; contrato de campos e estados; matriz inicial de papéis; registro de fixture; evidência da decisão de seguir, ajustar ou parar.
 - **Dependências e responsáveis:** Tiago decide piloto, grupo, alvo e veredito; coordenador define operação das pendências; administrador do DoIt confirma a referência de dados e limites técnicos; consultor registra o contrato sem aprovar gates em nome deles.
 - **Atores e permissões mínimas:** champion aprova o piloto e consulta resultado; coordenador opera pendências; participante registra somente dentro do grupo autorizado; administrador técnico fornece limites de acesso; administrativo/financeiro não recebe dados financeiros por padrão. A concessão concreta fica bloqueada até a SPEC-1-002.
-- **Superfícies/arquivos/configurações afetadas:** ficha/configuração do piloto e camada complementar aprovada; nenhum caminho técnico de implementação foi inventado. O Ethos deve parar antes de escolher aplicativo, banco, conector ou arquivo de cliente.
+- **Superfícies/arquivos/configurações afetadas:** aplicação Skip existente do cliente. Reutilizar chat e painel, respeitando o submódulo e sem criar projeto paralelo. Conector sem acesso vira pendência técnica, nunca motivo para inventar dados.
 - **Risco e plano B:** se não houver acesso ao DoIt ou referência confiável, manter o fixture e marcar a origem como `pendente`; não usar dado inventado como dado produtivo. Se os valores do piloto não forem aprovados, não iniciar registro real.
 - **Rollback ou reversão:** arquivar a ficha e excluir/desativar somente o fixture de teste, preservando a evidência da decisão; não remover dados existentes do DoIt.
 
@@ -64,7 +71,7 @@ Uma ficha de piloto aprovada e um contrato de registro preenchido com um fixture
 2. **Alterar somente:** ficha/contrato do piloto na superfície aprovada e fixture de teste.
 3. **Não alterar:** DoIt, dados financeiros, credenciais, permissões fora da matriz aprovada ou qualquer integração não documentada.
 4. **Executar nesta ordem:** fechar P1-001 → fechar P1-002/P1-003 → criar ficha → criar contrato → registrar fixture → demonstrar o caminho.
-5. **Parar e pedir validação quando:** qualquer bloqueio P1-001, P1-002 ou P1-003 estiver aberto; houver necessidade de escolher plataforma, banco, conector, regra de cálculo ou permissão.
+5. **Parar e pedir validação quando:** faltar uma resposta operacional do Tiago; pergunte somente o que falta, uma de cada vez, registre e confirme antes de usar dado real. Dúvida técnica vira pendência para o consultor. Não é necessária nova liberação do consultor a cada tarefa.
 6. **Estado válido ao parar:** nenhuma escrita no DoIt; ficha e contrato permanecem inativos até validação; fixture permanece marcado como teste.
 
 ## Checklist de execução
@@ -102,15 +109,15 @@ Uma ficha de piloto aprovada e um contrato de registro preenchido com um fixture
 - **Como demonstrar:** abrir a ficha, mostrar o contrato, registrar `FIX-1-001` e apontar a origem/estado sem alegar sincronização.
 - **Como operar depois:** coordenador mantém ficha, grupo e pendências; Tiago valida mudanças de baseline/alvo.
 - **Como monitorar:** revisão da ficha antes de cada ciclo e contagem de fixtures/pendências abertas.
-- **Pendência conhecida:** P1-001, P1-002 e P1-003 bloqueiam a execução produtiva.
+- **Pendência conhecida:** parâmetros não respondidos são fechados durante a tarefa correspondente; não há aceite por silêncio. Integração de leitura ainda sem prova; escrita no DoIt fora desta fase.
 
 ## Tasks vinculadas
 
 | ID | Task | Dono | SPEC | Critério | Recorte da prova | Evidência esperada | Pré-condições | Status |
 |---|---|---|---|---|---|---|---|---|
-| F1-T001 | Registrar ficha do piloto e contrato mínimo | Coordenador de projetos | SPEC-1-001 | CA-1-001, CA-1-005 | preencher ficha, contrato e `FIX-1-001` | ficha, contrato, fixture e veredito | P1-001/P1-002/P1-003 fechados | bloqueada — exceção humana |
-| F1-T002 | Exercitar campos obrigatórios e estados de qualidade | Coordenador de projetos | SPEC-1-001 | CA-1-002 a CA-1-004 | testar ausência, `sem dado`, `zero`, `não aplicável` e financeiro | tabela, auditoria e rejeições | F1-T001 concluída; contrato ativo | bloqueada — exceção humana |
-| F1-T003 | Registrar rollback e handoff do piloto | Coordenador de projetos | SPEC-1-001 | CA-1-005 | arquivar fixture, preservar evidência e demonstrar roteiro | rollback, roteiro e aceite | F1-T001 concluída; fixture não produtivo | bloqueada — exceção humana |
+| F1-T001 | Registrar ficha do piloto e contrato mínimo | Coordenador de projetos | SPEC-1-001 | CA-1-001, CA-1-005 | preencher ficha, contrato e `FIX-1-001` | ficha, contrato, fixture e veredito | piloto, equipe e frequência definidos; completar o contrato nesta tarefa | aguarda dependências e teste humano |
+| F1-T002 | Exercitar campos obrigatórios e estados de qualidade | Coordenador de projetos | SPEC-1-001 | CA-1-002 a CA-1-004 | testar ausência, `sem dado`, `zero`, `não aplicável` e financeiro | tabela, auditoria e rejeições | F1-T001 concluída; contrato ativo | aguarda dependências e teste humano |
+| F1-T003 | Registrar rollback e handoff do piloto | Coordenador de projetos | SPEC-1-001 | CA-1-005 | arquivar fixture, preservar evidência e demonstrar roteiro | rollback, roteiro e aceite | F1-T001 concluída; fixture não produtivo | aguarda dependências e teste humano |
 
 ## Emendas
 

@@ -1,17 +1,24 @@
 # SPEC-1-003 — Entrada conversacional textual com prévia e confirmação
 
 **Fase:** 1
-**Status:** bloqueada
+**Status:** preparação autorizada; implementação e aceite sujeitos às dependências e ao teste humano
 **Dono:** coordenador de projetos
 **Origem no escopo:** RQ-002, RQ-006, RQ-007; DEC-001, DEC-003, DEC-006; Fase 1 do `02-Escopo-Definitivo.md`
 **Degrau da solução:** construção mínima — implementa somente a jornada textual complementar, com confirmação humana e sem escrita presumida no DoIt.
 
-## Contexto e decisões fechadas
+## Atualização vigente — 2ª consultoria de 29/10/2026
 
-- **Estado atual:** a equipe usa o DoIt, mas a jornada de registro e o atrito do input não estão descritos em fluxo reproduzível; áudio e integração são condicionais e não podem ser usados como base desta SPEC.
-- **Estado desejado:** usuário autorizado informa projeto, etapa e evento por texto; o sistema identifica campos ausentes/ambíguos, apresenta prévia, recebe confirmação explícita e registra autoria, momento, origem e estado sem criar registro órfão.
-- **Decisões já fechadas:** chat textual é o primeiro caminho; confirmação humana é obrigatória; seleção deve ser inequívoca; erro, duplicidade e conflito não aparecem como sucesso; a camada complementar não substitui o DoIt.
-- **Bloqueios:** **BLOQUEIO P1-005:** canal/plataforma de chat e superfície técnica não estão identificados. **BLOQUEIO P1-006:** o formato final da prévia e o vocabulário aprovado de estados ainda não foram validados por Tiago/coordenador. A SPEC define o conteúdo mínimo, mas não escolhe interface, stack ou conector.
+Este bloco prevalece sobre o texto anterior. Nenhuma tarefa foi concluída por ele.
+
+- **Projeto-piloto:** 224 — Rooftop PRIO.
+- **Equipe do piloto:** Bianca Martinelli (bianca@tiagofreire.arq.br), Akira Narimatsu (akira@tiagofreire.arq.br), Thales de Morais (thales@tiagofreire.arq.br) e Felipe Pinto (felipe@tiagofreire.arq.br). Confirmar o endereço da Akira antes de qualquer convite; não criar contas automaticamente.
+- **Frequência de registro:** uma vez por dia (definido na consultoria de 29/10).
+- **O que se espera do piloto:** que a equipe consiga registrar diariamente e que o gestor passe a ver andamento por projeto, etapa e responsável, com horas por pessoa e por projeto como evolução.
+- **Aplicação:** usar este projeto Skip existente. Não criar outro projeto nem descartar a tela atual — chat e painel começam do que já foi criado.
+- **Como trabalhar:** uma tarefa por vez. O agente pergunta ao Tiago o que faltar, registra a resposta e só segue para a próxima tarefa depois de confirmação ("testei, pode seguir").
+- **DoIt:** a consulta está documentada, mas o acesso ainda não foi provado. Nesta fase não há escrita no DoIt e nenhum dado financeiro é usado.
+- **Perguntas em aberto, a fazer durante as tarefas:** etapas reais do Rooftop PRIO; responsável pelas pendências; dias e horário-limite do registro; critério verificável de sucesso. Não criar número nem prazo por conta própria.
+
 
 ## Resultado observável
 
@@ -25,7 +32,7 @@ Em uma conversa textual de teste, o usuário autorizado envia uma atualização,
 - **Saídas/artefatos:** registro operacional confirmado; log de prévia/decisão; pendência quando incompleto; event_id único; evidência de demonstração.
 - **Dependências e responsáveis:** coordenador define campos/estados e valida ambiguidade; usuário confirma; administrador técnico disponibiliza canal; responsável pelo DoIt confirma somente a referência de leitura, sem autorizar escrita por inferência.
 - **Atores e permissões mínimas:** participante autorizado pode iniciar e confirmar seu registro; coordenador pode revisar/corrigir conforme matriz; consultor/agent não confirma em nome do usuário; leitura e edição seguem SPEC-1-002.
-- **Superfícies/arquivos/configurações afetadas:** canal textual e camada complementar aprovados; nenhum caminho de API, banco, webhook, secret ou prompt persistente é criado sem P1-005.
+- **Superfícies/arquivos/configurações afetadas:** aplicação Skip existente do cliente. Reutilizar chat e painel, respeitando o submódulo e sem criar projeto paralelo. Conector sem acesso vira pendência técnica, nunca motivo para inventar dados.
 - **Risco e plano B:** se a extração não for inequívoca, retornar perguntas e manter rascunho não produtivo; se o canal cair, registrar pendência manual com dono; nunca assumir valor ou enviar sucesso falso.
 - **Rollback ou reversão:** cancelar rascunho antes da confirmação; para correção posterior, criar evento de correção preservando o valor anterior; não apagar auditoria nem alterar DoIt.
 
@@ -70,7 +77,7 @@ Em uma conversa textual de teste, o usuário autorizado envia uma atualização,
 2. **Alterar somente:** fluxo textual e camada complementar da superfície aprovada.
 3. **Não alterar:** DoIt, dados financeiros, áudio, timer, credenciais, prompts/skills fora do recorte ou permissões.
 4. **Executar nesta ordem:** fechar P1-005/P1-006 → validar sessão → criar rascunho → exercitar esclarecimento → prévia → confirmação → retry/falha → evidência.
-5. **Parar e pedir validação quando:** faltar canal, fonte de referência, campo, regra de estado, papel ou formato aprovado da prévia; ou quando a implementação exigir escrita no DoIt.
+5. **Parar e pedir validação quando:** faltar uma resposta operacional do Tiago; pergunte somente o que falta, uma de cada vez, registre e confirme antes de usar dado real. Dúvida técnica vira pendência para o consultor. Não é necessária nova liberação do consultor a cada tarefa.
 6. **Estado válido ao parar:** rascunhos não confirmados não aparecem como aceitos; nenhum retry gera duplicata; DoIt permanece sem escrita.
 
 ## Checklist de execução
@@ -109,15 +116,15 @@ Em uma conversa textual de teste, o usuário autorizado envia uma atualização,
 - **Como demonstrar:** enviar o fixture, resolver uma ambiguidade, confirmar, repetir a confirmação e mostrar o estado pendente do DoIt.
 - **Como operar depois:** equipe registra por texto; coordenador acompanha pendências e corrige conforme matriz; Tiago decide expansão.
 - **Como monitorar:** taxa de esclarecimentos, rejeições, duplicidades, erros e registros sem dono.
-- **Pendência conhecida:** P1-005 e P1-006 bloqueiam implementação; áudio e escrita DoIt permanecem fora.
+- **Pendência conhecida:** parâmetros não respondidos são fechados durante a tarefa correspondente; não há aceite por silêncio. Integração de leitura ainda sem prova; escrita no DoIt fora desta fase.
 
 ## Tasks vinculadas
 
 | ID | Task | Dono | SPEC | Critério | Recorte da prova | Evidência esperada | Pré-condições | Status |
 |---|---|---|---|---|---|---|---|---|
-| F1-T007 | Fechar canal textual e contrato da prévia | Coordenador de projetos | SPEC-1-003 | CA-1-011, CA-1-012 | enviar entrada completa, ambígua e incompleta | conversa, prévia e rascunhos | P1-005/P1-006 fechados; canal aprovado | bloqueada — exceção humana |
-| F1-T008 | Demonstrar confirmação única e idempotência | Coordenador de projetos | SPEC-1-003 | CA-1-013, CA-1-014 | confirmar fixture e reenviar request_id | event_id, registro único e retry | F1-T007 concluída; sessão válida | bloqueada — exceção humana |
-| F1-T009 | Exercitar erros, cancelamento e ausência de escrita no DoIt | Coordenador de projetos | SPEC-1-003 | CA-1-015, CA-1-016 | testar timeout, cancelamento, papel negado e consulta DoIt | estados de erro e prova de não escrita | F1-T007 concluída; acesso somente leitura | bloqueada — exceção humana |
+| F1-T007 | Fechar canal textual e contrato da prévia | Coordenador de projetos | SPEC-1-003 | CA-1-011, CA-1-012 | enviar entrada completa, ambígua e incompleta | conversa, prévia e rascunhos | canal definido; validar a prévia nesta tarefa | aguarda dependências e teste humano |
+| F1-T008 | Demonstrar confirmação única e idempotência | Coordenador de projetos | SPEC-1-003 | CA-1-013, CA-1-014 | confirmar fixture e reenviar request_id | event_id, registro único e retry | F1-T007 concluída; sessão válida | aguarda dependências e teste humano |
+| F1-T009 | Exercitar erros, cancelamento e ausência de escrita no DoIt | Coordenador de projetos | SPEC-1-003 | CA-1-015, CA-1-016 | testar timeout, cancelamento, papel negado e consulta DoIt | estados de erro e prova de não escrita | F1-T007 concluída; acesso somente leitura | aguarda dependências e teste humano |
 
 ## Emendas
 

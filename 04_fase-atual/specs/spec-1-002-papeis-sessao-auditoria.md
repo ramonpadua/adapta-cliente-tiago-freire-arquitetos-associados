@@ -1,17 +1,24 @@
 # SPEC-1-002 — Papéis, sessão e trilha de auditoria do piloto
 
 **Fase:** 1
-**Status:** bloqueada
+**Status:** preparação autorizada; implementação e aceite sujeitos às dependências e ao teste humano
 **Dono:** administrador/responsável técnico do DoIt + coordenador de projetos
 **Origem no escopo:** RQ-006, RQ-002; DEC-006; Fase 1 do `02-Escopo-Definitivo.md`
 **Degrau da solução:** recurso nativo da plataforma aprovada, com construção mínima somente se a plataforma não oferecer sessão, controle por papel e auditoria; o Ethos não escolhe a plataforma por conta própria.
 
-## Contexto e decisões fechadas
+## Atualização vigente — 2ª consultoria de 29/10/2026
 
-- **Estado atual:** o escopo exige papéis, permissões/RLS, sessão e auditoria, mas a matriz concreta de papéis, o ambiente de execução, os acessos do DoIt e a exposição autorizada de dados não estão documentados nas fontes.
-- **Estado desejado:** cada ação do piloto é permitida ou negada por papel e sessão; criação, confirmação, correção, consulta, encaminhamento e falha deixam autoria, momento, origem e resultado auditáveis.
-- **Decisões já fechadas:** dados financeiros ficam restritos e fora da visão da fase 1; nenhum agente altera preço, contrato, proposta ou mensagem a cliente; confirmação humana é obrigatória antes de criar/atualizar registro.
-- **Bloqueios:** **BLOQUEIO P1-004:** faltam nomes dos papéis reais, permissões por ação, responsável pela administração, mecanismo de sessão/RLS, retenção da auditoria e plataforma onde a regra será aplicada.
+Este bloco prevalece sobre o texto anterior. Nenhuma tarefa foi concluída por ele.
+
+- **Projeto-piloto:** 224 — Rooftop PRIO.
+- **Equipe do piloto:** Bianca Martinelli (bianca@tiagofreire.arq.br), Akira Narimatsu (akira@tiagofreire.arq.br), Thales de Morais (thales@tiagofreire.arq.br) e Felipe Pinto (felipe@tiagofreire.arq.br). Confirmar o endereço da Akira antes de qualquer convite; não criar contas automaticamente.
+- **Frequência de registro:** uma vez por dia (definido na consultoria de 29/10).
+- **O que se espera do piloto:** que a equipe consiga registrar diariamente e que o gestor passe a ver andamento por projeto, etapa e responsável, com horas por pessoa e por projeto como evolução.
+- **Aplicação:** usar este projeto Skip existente. Não criar outro projeto nem descartar a tela atual — chat e painel começam do que já foi criado.
+- **Como trabalhar:** uma tarefa por vez. O agente pergunta ao Tiago o que faltar, registra a resposta e só segue para a próxima tarefa depois de confirmação ("testei, pode seguir").
+- **DoIt:** a consulta está documentada, mas o acesso ainda não foi provado. Nesta fase não há escrita no DoIt e nenhum dado financeiro é usado.
+- **Perguntas em aberto, a fazer durante as tarefas:** etapas reais do Rooftop PRIO; responsável pelas pendências; dias e horário-limite do registro; critério verificável de sucesso. Não criar número nem prazo por conta própria.
+
 
 ## Resultado observável
 
@@ -25,7 +32,7 @@ Uma matriz de autorização do piloto e uma trilha de auditoria demonstrável: u
 - **Saídas/artefatos:** matriz permitido/negado; configuração de sessão; eventos de auditoria; relatório de teste de acesso; decisão de seguir, ajustar ou parar.
 - **Dependências e responsáveis:** administrador técnico implementa; coordenador valida operação; Tiago aprova o recorte de usuários; administrativo/financeiro valida o bloqueio financeiro; consultor registra evidências.
 - **Atores e permissões mínimas:** os nomes e concessões são P1-004. O contrato mínimo exige pelo menos uma conta autorizada a registrar, uma conta autorizada a consultar, uma conta negada e uma conta de teste sem exposição financeira.
-- **Superfícies/arquivos/configurações afetadas:** controle de acesso, sessão e auditoria na plataforma aprovada; nenhum arquivo, conector ou serviço é escolhido nesta SPEC.
+- **Superfícies/arquivos/configurações afetadas:** aplicação Skip existente do cliente. Reutilizar chat e painel, respeitando o submódulo e sem criar projeto paralelo. Conector sem acesso vira pendência técnica, nunca motivo para inventar dados.
 - **Risco e plano B:** se a plataforma não suportar RLS/auditoria mínima, manter o piloto em dry-run com exportação controlada e registrar a limitação; não substituir o controle por planilha não protegida ou promessa verbal.
 - **Rollback ou reversão:** desativar contas de teste e remover somente regras/configurações criadas para o piloto, preservando logs e evidência; não revogar acessos existentes fora do recorte sem autorização.
 
@@ -67,7 +74,7 @@ Uma matriz de autorização do piloto e uma trilha de auditoria demonstrável: u
 2. **Alterar somente:** contas/configurações de teste e matriz de autorização da superfície aprovada.
 3. **Não alterar:** acessos do DoIt fora do piloto, dados financeiros, credenciais em arquivos, integrações externas ou regras não aprovadas.
 4. **Executar nesta ordem:** fechar P1-004 → criar contas de teste → aplicar matriz → executar cenários → revisar auditoria → solicitar aceite.
-5. **Parar e pedir validação quando:** faltar papel, responsável, mecanismo de sessão, retenção, acesso técnico ou regra de dado financeiro.
+5. **Parar e pedir validação quando:** faltar uma resposta operacional do Tiago; pergunte somente o que falta, uma de cada vez, registre e confirme antes de usar dado real. Dúvida técnica vira pendência para o consultor. Não é necessária nova liberação do consultor a cada tarefa.
 6. **Estado válido ao parar:** nenhuma alteração produtiva sem evento de auditoria; acessos de teste identificados e reversíveis.
 
 ## Checklist de execução
@@ -105,15 +112,15 @@ Uma matriz de autorização do piloto e uma trilha de auditoria demonstrável: u
 - **Como demonstrar:** executar o mesmo fixture com usuário autorizado e negado, mostrando prévia, decisão e trilha de auditoria.
 - **Como operar depois:** administrador técnico mantém acessos; coordenador revisa exceções; Tiago aprova alteração de escopo.
 - **Como monitorar:** auditoria de negativas, sessões expiradas, alterações e tentativas financeiras.
-- **Pendência conhecida:** P1-004 bloqueia a execução; nenhum nome de papel ou retenção deve ser inferido.
+- **Pendência conhecida:** parâmetros não respondidos são fechados durante a tarefa correspondente; não há aceite por silêncio. Integração de leitura ainda sem prova; escrita no DoIt fora desta fase.
 
 ## Tasks vinculadas
 
 | ID | Task | Dono | SPEC | Critério | Recorte da prova | Evidência esperada | Pré-condições | Status |
 |---|---|---|---|---|---|---|---|---|
-| F1-T004 | Aplicar matriz de papéis, sessão e contas de teste | Administrador técnico | SPEC-1-002 | CA-1-006, CA-1-007 | criar contas e testar sessão expirada | matriz, configuração e capturas | P1-004 fechado; mecanismo aprovado | bloqueada — exceção humana |
-| F1-T005 | Validar auditoria, negativas e privacidade financeira | Administrador técnico | SPEC-1-002 | CA-1-008, CA-1-009 | executar permitido, negado e tentativa financeira | eventos completos e capturas | F1-T004 concluída; retenção aprovada | bloqueada — exceção humana |
-| F1-T006 | Exercitar indisponibilidade da auditoria e recuperação segura | Administrador técnico | SPEC-1-002 | CA-1-010 | interromper auditoria e repetir após recuperação | log, pendência e ausência de duplicata | F1-T004 concluída; falha controlada | bloqueada — exceção humana |
+| F1-T004 | Aplicar matriz de papéis, sessão e contas de teste | Administrador técnico | SPEC-1-002 | CA-1-006, CA-1-007 | criar contas e testar sessão expirada | matriz, configuração e capturas | confirmar nomes e política nesta tarefa antes de implementar | aguarda dependências e teste humano |
+| F1-T005 | Validar auditoria, negativas e privacidade financeira | Administrador técnico | SPEC-1-002 | CA-1-008, CA-1-009 | executar permitido, negado e tentativa financeira | eventos completos e capturas | F1-T004 concluída; retenção aprovada | aguarda dependências e teste humano |
+| F1-T006 | Exercitar indisponibilidade da auditoria e recuperação segura | Administrador técnico | SPEC-1-002 | CA-1-010 | interromper auditoria e repetir após recuperação | log, pendência e ausência de duplicata | F1-T004 concluída; falha controlada | aguarda dependências e teste humano |
 
 ## Emendas
 
