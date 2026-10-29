@@ -28,9 +28,10 @@ Abra o Maestro e diga: **"vamos iniciar nosso projeto"**. Ele lê este repositó
 
 ## Registro anterior
 
+>
 > # STATUS — Projeto Tiago Freire Arquitetos Associados
-> > **Atualizado em:** 2026-08-18 · **Por:** Consultoria Adapta, em exceção humana solicitada nesta sessão
-> > O painel registra a fase oficial, o progresso e as travas que ainda impedem a execução.
+> **Atualizado em:** 2026-08-18 · **Por:** Consultoria Adapta, em exceção humana solicitada nesta sessão
+> O painel registra a fase oficial, o progresso e as travas que ainda impedem a execução.
 > ## Onde estamos
 > - **Fase atual:** 1 — Piloto, mínimo operacional e primeira visão · preparada em 2026-08-18 · reunião de fechamento a definir
 > - **Objetivo desta fase:** validar uma entrada conversacional textual com confirmação humana e uma visão acionável de completude e pendências, complementando o DoIt.
