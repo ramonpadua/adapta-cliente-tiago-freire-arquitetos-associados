@@ -1,8 +1,12 @@
 # CLAUDE.md — Projeto Tiago Freire Arquitetos Associados · Adapta
 
+## Atualização de 18/11/2026
+
+O suporte oficial do DoIt confirmou por escrito: a API é **somente leitura**, **sem previsão de escrita** e **sem limite de requisições**. O registro operacional mora no app do piloto; o DoIt é fonte de consulta, nunca destino de escrita. Nenhuma tarefa concluída; a T001 continua sendo o ponto de partida.
+
 ## Atualização de 29/10/2026
 
-Piloto definido: **224 — Rooftop PRIO**, com Bianca Martinelli, Akira Narimatsu, Thales de Morais e Felipe Pinto. Registro **diário**. A aplicação é este projeto Skip existente — evoluir o que já existe, sem criar outro projeto. Trabalhe **uma tarefa por vez**, pergunte ao Tiago apenas o que faltar e só avance após a confirmação dele. A Fase 1 começa pela T001; nenhuma tarefa está concluída. Escrita no DoIt e dados financeiros estão fora desta fase.
+Piloto definido: **224 — Rooftop PRIO**, com Bianca Martinelli, Akira Narimatsu, Thales de Morais e Felipe Pinto. Registro **diário**. A aplicação é este projeto Skip existente — evoluir o que já existe, sem criar outro projeto. Trabalhe **uma tarefa por vez**, pergunte ao Tiago apenas o que faltar e só avance após a confirmação dele. A Fase 1 começa pela T001; nenhuma tarefa está concluída. Escrita no DoIt não existe neste ciclo (API confirmada somente leitura pelo suporte oficial em 18/11); o registro operacional mora no app do piloto. Dados financeiros também estão fora desta fase.
 
 
 Este repositório é o espaço de trabalho do projeto de implementação de IA da
