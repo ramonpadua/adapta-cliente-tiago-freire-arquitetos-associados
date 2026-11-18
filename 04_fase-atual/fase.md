@@ -1,5 +1,9 @@
 # Fase 1 — Tarefas gerais
 
+## Atualização vigente — 18/11/2026
+
+O suporte oficial do DoIt confirmou por escrito: **API somente leitura, sem previsão de escrita, sem limite de requisições** (Adendo E-F1-002 do Escopo Definitivo). O registro operacional mora no app do piloto; o DoIt é fonte de consulta, nunca destino de escrita. A evolução de F2 de atualizar tarefas no DoIt está descartada. Nenhuma tarefa foi concluída por este bloco; a T001 continua sendo o ponto de partida.
+
 ## Atualização vigente — 2ª consultoria de 29/10/2026
 
 Este bloco prevalece sobre o texto anterior. Nenhuma tarefa foi concluída por ele.

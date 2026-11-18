@@ -1,6 +1,17 @@
 # STATUS — Projeto Tiago Freire Arquitetos Associados
 
-**Atualizado em:** 2026-10-29 · **Por:** Consultoria Adapta, após a 2ª Consultoria Native
+**Atualizado em:** 2026-11-18 · **Por:** Consultoria Adapta, após resposta oficial do suporte do DoIt
+
+## Atualização vigente — 18/11/2026
+
+O suporte oficial do DoIt respondeu por escrito ao time do cliente (Carolina — DOit): a **API é somente de visualização (leitura)**, **não existe previsão de API de escrita** e **não há limite de requisições**. O plano foi ajustado no Adendo E-F1-002 do Escopo Definitivo:
+
+- **O registro operacional mora no app do piloto.** O que a equipe digita no chat fica na camada complementar; o DoIt continua como fonte de consulta, nunca destino de escrita.
+- **A evolução de atualizar tarefas no DoIt está descartada.** A Fase 2 fica estritamente de leitura: autenticar, listar projetos ativos, sincronizar o selecionado e tratar exceções.
+- **A consulta ao DoIt não tem limite de requisições** — a cadência diária de leitura não esbarra em rate limit.
+- A **prova de autenticação/leitura continua pendente** (F1-T009). P1-003 fechou na parte documental.
+
+Nenhuma tarefa foi concluída por este bloco. As perguntas operacionais da T001 seguem em aberto com o Tiago.
 
 ## Atualização vigente — 2ª consultoria de 29/10/2026
 
