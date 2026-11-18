@@ -28,89 +28,99 @@ Em uma conversa textual de teste, o usuário autorizado envia uma atualização,
 
 - **Inclui:** entrada de texto; extração/proposta de projeto, etapa, responsável, status, momento e observação; pedidos de esclarecimento; prévia; confirmar, editar/esclarecer e cancelar; event_id/idempotência; autoria e origem; estados de erro e pendência.
 - **Fora de escopo:** áudio/transcrição; timer; escrita automática no DoIt; leitura financeira; notificação a cliente; classificação autônoma sem revisão; alteração de preço, contrato ou proposta.
+- **Entradas e pré-condições:** SPEC-1-001 aceita; SPEC-1-002 com papel e sessão aprovados; projeto, etapa e responsáveis de teste; canal P1-005 disponível; contrato de prévia P1-006 aprovado.
+- **Saídas/artefatos:** registro operacional confirmado; log de prévia/decisão; pendência quando incompleto; event_id único; evidência de demonstração.
 - **Dependências e responsáveis:** coordenador define campos/estados e valida ambiguidade; usuário confirma; administrador técnico disponibiliza canal; responsável pelo DoIt confirma somente a referência de leitura, sem autorizar escrita por inferência.
+- **Atores e permissões mínimas:** participante autorizado pode iniciar e confirmar seu registro; coordenador pode revisar/corrigir conforme matriz; consultor/agent não confirma em nome do usuário; leitura e edição seguem SPEC-1-002.
+- **Superfícies/arquivos/configurações afetadas:** aplicação Skip existente do cliente. Reutilizar chat e painel, respeitando o submódulo e sem criar projeto paralelo. Conector sem acesso vira pendência técnica, nunca motivo para inventar dados.
+- **Risco e plano B:** se a extração não for inequívoca, retornar perguntas e manter rascunho não produtivo; se o canal cair, registrar pendência manual com dono; nunca assumir valor ou enviar sucesso falso.
 - **Rollback ou reversão:** cancelar rascunho antes da confirmação; para correção posterior, criar evento de correção preservando o valor anterior; não apagar auditoria nem alterar DoIt.
-
-## Fluxo e regras
-
-1. Usuário autorizado envia atualização textual no canal definido.
-2. Sistema extrai e propõe projeto, etapa, responsável, status, momento e observação; pede esclarecimento quando houver ambiguidade.
-3. Prévia com todos os campos é apresentada para revisão.
-4. Usuário confirma uma única vez; sistema grava na camada complementar com event_id, autoria, timestamp e origem.
-5. Estados: `rascunho`, `aceito`, `pendente`, `erro`, `rejeitado`.
-6. Escrita no DoIt não ocorre; estado de integração fica `pendente` quando aplicável.
-
-## Caminhos de erro obrigatórios
-
-- Entrada incompleta → pedir esclarecimento; não inventar campo.
-- Entrada ambígua → oferecer opções; não escolher sozinho.
-- Cancelamento → descartar rascunho; nenhum registro residual.
-- Papel não autorizado → negar e auditar.
-- Timeout/indisponibilidade → manter pendência com dono e próximo passo.
 
 ## Dados e integrações
 
-| Transição | Destino | Campos | Papel | Idempotência | Erro |
+| Origem/destino | Fonte de verdade | Campos/contrato | Autenticação/permissão | Timeout/retry/idempotência | Tratamento de erro |
 |---|---|---|---|---|---|
+| Mensagem textual → prévia | mensagem confirmada pelo usuário; projeto/etapa/responsável vêm da fonte operacional autorizada | texto, actor_id, projeto, etapa, responsável, status, momento, observação, campos ausentes/ambíguos | sessão e papel da SPEC-1-002 | cada tentativa recebe request_id; timeout não confirma | manter `pendente`, pedir esclarecimento ou cancelar |
 | Prévia confirmada → registro complementar | camada complementar | event_id, valores confirmados, autoria, timestamp, origem, `registro_status=aceito`, `estado_integracao=pendente` quando não houver escrita DoIt | somente papel autorizado | confirmação repetida com mesmo request_id não cria segundo registro | mostrar resultado idempotente e auditar repetição |
 | Registro complementar → DoIt | DoIt permanece referência existente; escrita fora desta fase | nenhuma escrita autorizada por esta SPEC | sem credencial de escrita | não tentar retry de escrita | estado fica `pendente` com dono/próximo passo |
 
-## Regras de negócio
+| Regra de negócio | Condição | Ação/resultado | Exceção | Fonte |
+|---|---|---|---|---|
+| RN-301 | projeto, etapa ou responsável não são inequívocos | pedir esclarecimento e não permitir confirmação | se não houver opção válida, criar pendência | RQ-002, seção 5 |
+| RN-302 | prévia sem todos os campos mínimos | bloquear confirmação | usuário pode editar ou cancelar | seção 6, Fase 1 |
+| RN-303 | usuário confirma prévia válida | criar um registro com event_id único | retry idêntico retorna o mesmo resultado | seção 7 |
+| RN-304 | timeout, conflito ou erro de fonte | estado `pendente` ou `erro`, com causa/dono/próximo passo | nunca usar mensagem de sucesso | RQ-007 |
+| RN-305 | usuário cancela ou rejeita | não criar registro aceito; preservar evento de auditoria | rascunho pode expirar conforme política aprovada | DEC-003 |
 
-1. Nenhuma gravação sem prévia confirmada.
-2. Nenhum campo inventado; esclarecimento sempre que faltar informação.
-3. Registro aceito é imutável; correções criam novo evento referenciando o anterior.
-4. Auditoria registra actor, papel, momento, ação, resultado e event_id.
-5. Falha, duplicidade ou DoIt não autorizado mantém o evento pendente e encaminhável.
+## Fluxo e regras
 
-## Caminhos de erro
+1. Usuário autorizado envia texto com projeto, etapa e evento.
+2. Sistema consulta somente fontes autorizadas e apresenta os campos identificados.
+3. Se houver campo ausente/ambíguo, sistema pergunta e mantém rascunho não confirmado.
+4. Sistema apresenta prévia contendo projeto, etapa, responsável, status, momento, observação, origem, estado de integração e campos ainda pendentes.
+5. Usuário escolhe `confirmar`, `editar/esclarecer` ou `cancelar`.
+6. Após `confirmar`, sistema cria o registro complementar uma vez, registra auditoria e retorna event_id/estado.
+7. Falha, duplicidade ou DoIt não autorizado mantém o evento pendente e encaminhável.
 
-| Cenário | Gatilho | Comportamento | Recuperação |
+| Cenário | Dado/condição | Resultado esperado | Caminho de erro/recuperação |
 |---|---|---|---|
-| Ambiguidade de etapa | texto sem etapa ou com duas etapas possíveis | pergunta de esclarecimento; nenhuma escrita | após resposta, regenerar prévia; após abandono, pendência |
-| Confirmação duplicada | mesmo request_id reenviado | não cria segundo registro; auditar repetição | exibir resultado idempotente |
-| Indisponibilidade da camada | falha ao gravar | registro fica pendente, não descartado | retry manual com dono e próximo passo |
-| Papel negado | usuário sem papel autorizado | negar e auditar | sem recuperação automática |
+| Principal | texto completo + usuário autorizado | prévia correta; uma confirmação; registro aceito na camada complementar | anexar event_id e evidência |
+| Limite | texto sem etapa ou com duas etapas possíveis | pergunta de esclarecimento; nenhuma escrita | após resposta, regenerar prévia; após abandono, pendência |
+| Falha | fonte operacional indisponível | mensagem de pendência sem sucesso falso | registrar causa e dono; não confirmar |
+| Duplicidade | mesma confirmação reenviada | mesmo event_id/resultado, sem segundo registro | auditar retry |
+| Cancelamento | usuário rejeita prévia | nenhum registro aceito | preservar rejeição para auditoria |
+| Segurança | usuário sem papel de registro | ação negada antes da prévia sensível | auditar negativa; não revelar dados |
 
-## Instruções de execução
+## Instruções de execução para o Ethos
 
-1. **Escopo:** implementar somente a jornada textual descrita; nada além do aceite.
-2. **Não alterar:** DoIt, dados financeiros, áudio, timer, credenciais, prompts/skills fora do recorte ou permissões.
-3. **Cobertura mínima de idioma:** português.
-4. **Segurança:** autenticação obrigatória; sessão com expiração; auditoria de todas as ações.
+1. **Ler antes de alterar:** SPEC-1-001 e SPEC-1-002; `02-Escopo-Definitivo.md` §§ 5–7 e 9; contrato de campos; esta SPEC.
+2. **Alterar somente:** fluxo textual e camada complementar da superfície aprovada.
+3. **Não alterar:** DoIt, dados financeiros, áudio, timer, credenciais, prompts/skills fora do recorte ou permissões.
+4. **Executar nesta ordem:** fechar P1-005/P1-006 → validar sessão → criar rascunho → exercitar esclarecimento → prévia → confirmação → retry/falha → evidência.
 5. **Parar e pedir validação quando:** faltar uma resposta operacional do Tiago; pergunte somente o que falta, uma de cada vez, registre e confirme antes de usar dado real. Dúvida técnica vira pendência para o consultor. Não é necessária nova liberação do consultor a cada tarefa.
 6. **Estado válido ao parar:** rascunhos não confirmados não aparecem como aceitos; nenhum retry gera duplicata; DoIt permanece sem escrita.
 
+## Checklist de execução
+
+- [ ] Canal textual e superfície técnica foram confirmados.
+- [ ] Conteúdo e ações da prévia foram aprovados.
+- [ ] Campos ausentes, ambíguos e inválidos geram esclarecimento/pendência.
+- [ ] Confirmação exige sessão e papel válidos.
+- [ ] Registro confirmado contém event_id, origem, autoria e estado de integração.
+- [ ] Retry, timeout, cancelamento e fonte indisponível foram exercitados.
+- [ ] Nenhuma escrita no DoIt ocorreu.
+
 ## Critérios de aceite
 
-- [ ] **CA-1-011:** conversa completa com prévia e esclarecimento demonstrados.
-- [ ] **CA-1-012:** rascunho cancelado não gera registro.
-- [ ] **CA-1-013:** confirmação única gera exatamente um registro com event_id.
-- [ ] **CA-1-014:** reenvio do mesmo request_id não cria segundo registro.
-- [ ] **CA-1-015:** estados de erro e pendência demonstrados com dono e próximo passo.
+- [ ] **CA-1-011:** entrada completa produz prévia com todos os campos mínimos antes de qualquer confirmação.
+- [ ] **CA-1-012:** entrada ambígua ou incompleta não pode ser confirmada e gera pergunta/pendência com dono.
+- [ ] **CA-1-013:** confirmação válida cria exatamente um registro complementar com event_id, autoria, momento, origem e estado de integração.
+- [ ] **CA-1-014:** reenvio do mesmo request_id não cria duplicata.
+- [ ] **CA-1-015:** timeout, cancelamento, erro de fonte e papel negado não aparecem como sucesso.
 - [ ] **CA-1-016:** a demonstração comprova que o DoIt não recebeu escrita nesta fase.
 
 ## TDD da SPEC
 
-| Cenário | Fixture | Passos | Resultado esperado | Evidência |
+| Etapa | Prova | Comando/ação | Resultado esperado | Evidência |
 |---|---|---|---|---|
+| RED | confirmação sem etapa | enviar `Projeto Casa Azul — revisar` e tentar confirmar | sistema pede esclarecimento e bloqueia confirmação | conversa/captura + estado do rascunho |
 | GREEN | registro completo | enviar fixture completo, responder esclarecimentos, confirmar uma vez | prévia aprovada, um event_id, registro aceito e estado DoIt pendente | conversa, registro, auditoria |
-| AMBIGUIDADE | entrada com duas etapas possíveis | enviar entrada ambígua, responder esclarecimento, confirmar | prévia regenerada e registro aceito | conversa, prévia, registro |
-| INCOMPLETO | entrada sem campo obrigatório | enviar entrada incompleta, não responder esclarecimento, cancelar | rascunho descartado, nenhum registro | conversa, ausência de registro |
-| IDEMPOTÊNCIA | confirmação repetida | confirmar e reenviar o mesmo request_id | um único registro; repetição auditada | registro, auditoria |
-| NÃO-ESCRITA | consulta posterior ao DoIt | confirmar registro e consultar o DoIt | DoIt sem alteração; estado pendente | captura do DoIt, registro |
+| REFACTOR/REGRESSÃO | retry + timeout + cancelamento | reenviar request_id; interromper fonte; rejeitar prévia | resultado idempotente; erro recuperável; nenhum falso sucesso/duplicata | relatório de cenários |
 
+**Dados/fixtures:** `FIX-1-001` da SPEC-1-001; entrada ambígua `Projeto Casa Azul — atualizar`; entrada inválida `Projeto Inexistente`; reenviar o mesmo request_id; usar contas da SPEC-1-002.
+**Caminhos de erro obrigatórios:** campo ausente, múltiplas opções, entidade inexistente, sessão expirada, papel negado, timeout, fonte indisponível, confirmação duplicada e cancelamento.
 **Evidência exigida:** conversa completa, prévia, decisão, event_id, registro, auditoria, estados de erro e confirmação de ausência de escrita no DoIt.
 
 ## Handoff e operação
 
 - **Como demonstrar:** enviar o fixture, resolver uma ambiguidade, confirmar, repetir a confirmação e mostrar o estado pendente do DoIt.
-- **Responsável pela demonstração:** coordenador de projetos.
+- **Como operar depois:** equipe registra por texto; coordenador acompanha pendências e corrige conforme matriz; Tiago decide expansão.
+- **Como monitorar:** taxa de esclarecimentos, rejeições, duplicidades, erros e registros sem dono.
 - **Pendência conhecida:** parâmetros não respondidos são fechados durante a tarefa correspondente; não há aceite por silêncio. Integração de leitura ainda sem prova; escrita no DoIt fora desta fase.
 
-## Tasks desta SPEC
+## Tasks vinculadas
 
-| ID | Task | Dono | Critério | Recorte da prova | Evidência | Pré-condições | Ponto de parada | Status |
+| ID | Task | Dono | SPEC | Critério | Recorte da prova | Evidência esperada | Pré-condições | Status |
 |---|---|---|---|---|---|---|---|---|
 | F1-T007 | Fechar canal textual e contrato da prévia | Coordenador de projetos | SPEC-1-003 | CA-1-011, CA-1-012 | enviar entrada completa, ambígua e incompleta | conversa, prévia e rascunhos | canal definido; validar a prévia nesta tarefa | aguarda dependências e teste humano |
 | F1-T008 | Demonstrar confirmação única e idempotência | Coordenador de projetos | SPEC-1-003 | CA-1-013, CA-1-014 | confirmar fixture e reenviar request_id | event_id, registro único e retry | F1-T007 concluída; sessão válida | aguarda dependências e teste humano |
